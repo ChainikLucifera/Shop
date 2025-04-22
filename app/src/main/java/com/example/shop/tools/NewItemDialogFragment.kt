@@ -12,12 +12,14 @@ import androidx.fragment.app.DialogFragment
  */
 class NewItemDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext())
+        
+        return AlertDialog.Builder(requireContext()) // возможно dialogFragment не подходит, нужно разобраться
             .setTitle("Заголовок диалога")
             .setMessage("Сообщение в диалоге")
             .setPositiveButton("OK") { _: DialogInterface, _: Int ->
                 // Действие при нажатии на OK
             }
+
             .setNegativeButton("Отмена") { _: DialogInterface, _: Int ->
                 // Действие при нажатии на Отмена
             }

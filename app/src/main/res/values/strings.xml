@@ -2,4 +2,6 @@
     <string name="app_name">Shop</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shop_item_default">Shop item</string>
+    <string name="btn_text">Add new Item</string>
 </resources>
