@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shop.databinding.FragmentShopListBinding
 import com.example.shop.tools.NewItemDialogFragment
 
-class ShopListFragment : Fragment() {
+class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener {
 
     /**
      * Создаём интерфейс и через него используем функцию [showDialogFragment],
@@ -21,6 +21,8 @@ class ShopListFragment : Fragment() {
     private var listener: ShowDialog? = null
     private lateinit var items: ArrayList<ShopItem>
     private lateinit var fragmentBinding: FragmentShopListBinding
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerAdapter: RecyclerAdapter
 
     interface ShowDialog { // при создании интерфейса, надо его использовать в активности, прописав
                            // в основании класса "..., ShopListFragment.ShowDialog"
@@ -32,6 +34,7 @@ class ShopListFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,7 +44,11 @@ class ShopListFragment : Fragment() {
 
 
         //вместо view создал binding, так проще
+
+
+
         fragmentBinding = FragmentShopListBinding.inflate(inflater, container, false)
+        recyclerView = fragmentBinding.recyclerView
 
         items = ArrayList<ShopItem>().apply{
             add(ShopItem("Cringe1"))
@@ -49,9 +56,11 @@ class ShopListFragment : Fragment() {
             add(ShopItem("Cringe3"))
         }
 
-        with(fragmentBinding.recyclerView){
+        recyclerAdapter = RecyclerAdapter(items)
+
+        with(recyclerView){
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = RecyclerAdapter(items)
+            adapter = recyclerAdapter
         }
 
         fragmentBinding.addItemBtn.setOnClickListener {
@@ -76,7 +85,14 @@ class ShopListFragment : Fragment() {
 
     private fun createNewItem(){
         val dialogFragment = NewItemDialogFragment()
-        showDialogFragment(dialogFragment)
+
+        dialogFragment.setListener(this)
+        dialogFragment.show(requireActivity().supportFragmentManager,"NewItemDialogFragment")
+    }
+
+    override fun onSubmit(name: String) {
+        items.add(ShopItem(name).also { Log.d("TEST","Added... ${it.getName()} to items") })
+        recyclerAdapter.itemAdded(items)
     }
 
     companion object {
@@ -84,4 +100,6 @@ class ShopListFragment : Fragment() {
         @JvmStatic
         fun newInstance() = ShopListFragment()
     }
+
+
 }

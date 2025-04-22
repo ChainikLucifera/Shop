@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shop.databinding.ShopItemBinding
 
-class RecyclerAdapter(val items: ArrayList<ShopItem>) :
+class RecyclerAdapter(var items: ArrayList<ShopItem>) :
     RecyclerView.Adapter<RecyclerAdapter.ShopItemViewHolder>() {
 
     class ShopItemViewHolder(private var binding: ShopItemBinding) :
@@ -32,5 +32,14 @@ class RecyclerAdapter(val items: ArrayList<ShopItem>) :
         Log.d("TEST", "Setting attributes for... ${item.getName()}")
 
         holder.itemName.text = item.getName()
+    }
+
+    fun updateRV(items: ArrayList<ShopItem>){
+        this.items = items
+        notifyDataSetChanged()
+    }
+    fun itemAdded(items: ArrayList<ShopItem>){
+        this.items = items
+        notifyItemInserted(items.size)
     }
 }
