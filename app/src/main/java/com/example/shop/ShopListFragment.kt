@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shop.databinding.FragmentShopListBinding
+import com.example.shop.tools.JSONSerializer
 import com.example.shop.tools.NewItemDialogFragment
 
 class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener {
@@ -19,6 +20,7 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener {
      * которая находиться в [MainActivity]
      */
     private var listener: ShowDialog? = null
+    private lateinit var serializer: JSONSerializer
     private lateinit var items: ArrayList<ShopItem>
     private lateinit var fragmentBinding: FragmentShopListBinding
     private lateinit var recyclerView: RecyclerView
@@ -28,12 +30,6 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener {
                            // в основании класса "..., ShopListFragment.ShowDialog"
         fun showDialogFragment(dialogFragment: NewItemDialogFragment)
     }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,16 +44,12 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener {
 
 
         fragmentBinding = FragmentShopListBinding.inflate(inflater, container, false)
+        serializer = JSONSerializer(requireContext(), Constants.SAVE_FILE_NAME)
+
+        items = serializer.loadItems()
+
         recyclerView = fragmentBinding.recyclerView
-
-        items = ArrayList<ShopItem>().apply{
-            add(ShopItem("Cringe1"))
-            add(ShopItem("Cringe2"))
-            add(ShopItem("Cringe3"))
-        }
-
         recyclerAdapter = RecyclerAdapter(items)
-
         with(recyclerView){
             layoutManager = LinearLayoutManager(requireContext())
             adapter = recyclerAdapter
@@ -79,6 +71,11 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener {
         }
     }
 
+    override fun onPause() {
+        serializer.saveItems(items)
+        super.onPause()
+    }
+
     private fun showDialogFragment(dialogFragment: NewItemDialogFragment) {
         listener?.showDialogFragment(dialogFragment)
     }
@@ -91,8 +88,12 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener {
     }
 
     override fun onSubmit(name: String) {
-        items.add(ShopItem(name).also { Log.d("TEST","Added... ${it.getName()} to items") })
+        items.add(ShopItem().also {
+            it.setName(name)
+            Log.d("TEST","Added... ${it.getName()} to items")
+        })
         recyclerAdapter.itemAdded(items)
+        serializer.saveItems(items) // можно будет поменять сохрание после каждого элемента на сохранение в конце прилы
     }
 
     companion object {
