@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import com.example.shop.R
 
@@ -36,6 +37,8 @@ class NewItemDialogFragment : DialogFragment() {
 
         val editText = view.findViewById<EditText>(R.id.editText)
         val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
+        val btnImage = view.findViewById<Button>(R.id.btnImage)
+        val imageView = view.findViewById<ImageView>(R.id.itemImage)
 
         btnSubmit.setOnClickListener {
             val inputName = editText.text.toString()
@@ -48,6 +51,7 @@ class NewItemDialogFragment : DialogFragment() {
 
             dismiss()
         }
+        //https://www.youtube.com/watch?v=nOtlFl1aUCw - о том как поставить картинку
     }
 
     fun setListener(listener: NewItemListener) {

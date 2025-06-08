@@ -26,6 +26,13 @@
             android:gravity="center|start"
             android:layout_margin="5dp"
             />
+
+        <Button
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:id="@+id/deleteBtn"
+            android:background="@drawable/delete_icon"
+            android:drawableTint="@color/black"/>
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"

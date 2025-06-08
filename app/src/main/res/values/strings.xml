@@ -6,4 +6,5 @@
     <string name="btn_text">Add new Item</string>
     <string name="hint">Enter name...</string>
     <string name="btnText">Submit</string>
+    <string name="add_image">Add Image</string>
 </resources>
