@@ -9,18 +9,17 @@
     <LinearLayout
         android:id="@+id/item"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/border"
-        android:weightSum="4"
      >
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/itemName"
-            android:layout_weight="3"
+            android:layout_weight="4"
             tools:text="@string/shop_item_default"
             android:textSize="25sp"
             android:gravity="center|start"
@@ -31,12 +30,17 @@
             android:layout_width="45dp"
             android:layout_height="match_parent"
             android:id="@+id/deleteBtn"
+            android:layout_weight="1"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:background="@drawable/delete_icon"
             android:drawableTint="@color/black"/>
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="3"
+            android:cropToPadding="true"
+            android:padding="5dp"
             android:id="@+id/itemImage"
             android:background="@drawable/border"
 

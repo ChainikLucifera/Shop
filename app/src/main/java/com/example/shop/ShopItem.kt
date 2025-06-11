@@ -1,14 +1,18 @@
 package com.example.shop
 
+import android.net.Uri
+import androidx.core.net.toUri
 import org.json.JSONObject
 
 class ShopItem() {
     private var imagePath: String? = null
     private var name: String? = null
     private var index: Int? = null
+    private var imageUri: Uri? = null
 
     constructor(json: JSONObject) : this(){
         name = json.getString(NAME)
+        imageUri = json.getString(URI).toUri() // остновка здесь
         //index = json.getString(INDEX).toInt()
     }
 
@@ -20,6 +24,9 @@ class ShopItem() {
     fun setIndex(index: Int){
         this.index = index
     }
+    fun setUri(uri: Uri){
+        this.imageUri = uri
+    }
 
     fun getName(): String? = this.name
     fun getIndex(): Int
@@ -28,6 +35,7 @@ class ShopItem() {
             return index!!
         return -10000
     }
+    fun getUri(): Uri? = this.imageUri
 
     fun setImagePath(path: String?) {
         this.imagePath = path
@@ -37,6 +45,7 @@ class ShopItem() {
     fun getAsJSON(): JSONObject {
         val json = JSONObject()
         json.put(NAME, name)
+        json.put(URI, imageUri.toString())
         //json.put(INDEX, index)
 
         return json
@@ -44,6 +53,7 @@ class ShopItem() {
 
     companion object{
         private val NAME = "NAME"
+        private val URI = "URI"
         //private val INDEX = "INDEX"
     }
 }

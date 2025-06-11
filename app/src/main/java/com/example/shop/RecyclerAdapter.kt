@@ -9,9 +9,6 @@ import com.example.shop.databinding.ShopItemBinding
 class RecyclerAdapter(var items: ArrayList<ShopItem>, var context: ShopListFragment) :
     RecyclerView.Adapter<RecyclerAdapter.ShopItemViewHolder>() {
 
-    interface NotifyFragment {
-        fun notifyFragment(items: ArrayList<ShopItem>)
-    }
 
     class ShopItemViewHolder(private var binding: ShopItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -36,6 +33,7 @@ class RecyclerAdapter(var items: ArrayList<ShopItem>, var context: ShopListFragm
         val item = items[position]
         Log.d("TEST", "Setting attributes for... ${item.getName()}")
         holder.itemName.text = item.getName()
+        holder.itemImage.setImageURI(item.getUri())
 
         holder.deleteBtn.setOnClickListener {
             val index = item.getIndex()

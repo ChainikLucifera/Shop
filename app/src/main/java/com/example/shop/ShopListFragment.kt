@@ -1,6 +1,7 @@
 package com.example.shop
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +14,7 @@ import com.example.shop.databinding.FragmentShopListBinding
 import com.example.shop.tools.JSONSerializer
 import com.example.shop.tools.NewItemDialogFragment
 
-class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener, RecyclerAdapter.NotifyFragment {
+class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener {
 
     /**
      * Создаём интерфейс и через него используем функцию [showDialogFragment],
@@ -98,10 +99,13 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener, Recy
         dialogFragment.show(requireActivity().supportFragmentManager, "NewItemDialogFragment")
     }
 
-    override fun onSubmit(name: String) {
+    override fun onSubmit(name: String, uri: Uri?) {
         if (name.replace(" ", "") != "") {
             items.add(ShopItem().also {
                 it.setName(name)
+                if(uri != null){
+                    it.setUri(uri)
+                }
 
                 Log.d("TEST", "Added... ${it.getName()} to items")
             })
@@ -109,7 +113,7 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener, Recy
             notifyFragment(items)
         }
     }
-    override fun notifyFragment(items: ArrayList<ShopItem>){
+    fun notifyFragment(items: ArrayList<ShopItem>){
         this.items = items
         Log.d("TEST","ITEMS: ${items.toString()}")
         for((count, item) in items.withIndex()){
