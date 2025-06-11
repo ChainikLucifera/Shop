@@ -55,7 +55,7 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener, Recy
         }
 
         recyclerView = fragmentBinding.recyclerView
-        recyclerAdapter = RecyclerAdapter(items)
+        recyclerAdapter = RecyclerAdapter(items, this)
         with(recyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = recyclerAdapter
@@ -79,13 +79,11 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener, Recy
 
     override fun onPause() {
         notifyFragment(items)
-        serializer.saveItems(items)
         super.onPause()
     }
 
     override fun onStop() {
         notifyFragment(items)
-        serializer.saveItems(items)
         super.onStop()
     }
 
@@ -117,11 +115,10 @@ class ShopListFragment : Fragment(), NewItemDialogFragment.NewItemListener, Recy
         for((count, item) in items.withIndex()){
             item.setIndex(count)
         }
+        serializer.saveItems(items)
     }
 
-
     companion object {
-
         @JvmStatic
         fun newInstance() = ShopListFragment()
     }

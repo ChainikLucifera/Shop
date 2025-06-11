@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shop.databinding.ShopItemBinding
 
-class RecyclerAdapter(var items: ArrayList<ShopItem>) :
-    RecyclerView.Adapter<RecyclerAdapter.ShopItemViewHolder>()  {
+class RecyclerAdapter(var items: ArrayList<ShopItem>, var context: ShopListFragment) :
+    RecyclerView.Adapter<RecyclerAdapter.ShopItemViewHolder>() {
 
-    interface NotifyFragment{
+    interface NotifyFragment {
         fun notifyFragment(items: ArrayList<ShopItem>)
     }
 
@@ -39,26 +39,22 @@ class RecyclerAdapter(var items: ArrayList<ShopItem>) :
 
         holder.deleteBtn.setOnClickListener {
             val index = item.getIndex()
-            Log.d("TEST","INDEX DELETE: ${index}")
-            items.removeAt(index)
-            itemDeleted(items, index)
 
-            val notify: NotifyFragment? = null
-            notify?.notifyFragment(items)
+            Log.d("TEST", "INDEX DELETE: ${index}")
+            items.removeAt(index)
+
+            itemDeleted(items, index)
+            context.notifyFragment(items)
         }
     }
 
-    fun updateRV(items: ArrayList<ShopItem>){
-        this.items = items
-        notifyDataSetChanged()
-    }
-    fun itemAdded(items: ArrayList<ShopItem>){
+    fun itemAdded(items: ArrayList<ShopItem>) {
         this.items = items
         notifyItemInserted(items.size)
     }
-    fun itemDeleted(items: ArrayList<ShopItem>, index: Int){
+
+    fun itemDeleted(items: ArrayList<ShopItem>, index: Int) {
         this.items = items
         notifyItemRemoved(index)
     }
-
 }
