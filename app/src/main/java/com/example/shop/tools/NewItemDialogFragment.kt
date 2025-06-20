@@ -1,7 +1,9 @@
 package com.example.shop.tools
 
 import android.Manifest
+import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -56,8 +58,11 @@ class NewItemDialogFragment : DialogFragment() {
         val pickImageLauncher =
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
                 uri?.let {
-                    link = it
+                    requireContext().contentResolver.takePersistableUriPermission(uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    link = uri
                     imageView.setImageURI(link)
+                    Log.d("TEST", "Link to image: $uri")
                 }
             }
 

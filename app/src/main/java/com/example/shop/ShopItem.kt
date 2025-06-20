@@ -5,14 +5,13 @@ import androidx.core.net.toUri
 import org.json.JSONObject
 
 class ShopItem() {
-    private var imagePath: String? = null
     private var name: String? = null
     private var index: Int? = null
     private var imageUri: Uri? = null
 
     constructor(json: JSONObject) : this(){
         name = json.getString(NAME)
-        imageUri = json.getString(URI).toUri() // остновка здесь
+        imageUri = Uri.parse(json.getString(URI)) // остновка здесь
         //index = json.getString(INDEX).toInt()
     }
 
@@ -36,11 +35,6 @@ class ShopItem() {
         return -10000
     }
     fun getUri(): Uri? = this.imageUri
-
-    fun setImagePath(path: String?) {
-        this.imagePath = path
-    }
-
 
     fun getAsJSON(): JSONObject {
         val json = JSONObject()
